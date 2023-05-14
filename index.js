@@ -8,7 +8,7 @@ const app = express();
 // set template engine to ejs
 app.set("view engine", "ejs");
 
-// serve static files located in public directory
+// serve static files located in public directory testing
 app.use(express.static(path.join(__dirname, "public")));
 
 app.engine("html", require("ejs").renderFile);
