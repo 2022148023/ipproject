@@ -61,6 +61,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 var details_window_open = false;
+var polygons = {};
 
 function renderArea(area) {
   var polygonPath = [];
@@ -93,7 +94,7 @@ function renderArea(area) {
     fillOpacity: 0.7, // 채우기 불투명도 입니다
   };
 
-  // 다각형에 마우스오버 이벤트를 등록합니다
+  /*   // 다각형에 마우스오버 이벤트를 등록합니다
   kakao.maps.event.addListener(polygon, "mouseover", function () {
     // 다각형의 채우기 옵션을 변경합니다
     polygon.setOptions(mouseoverOption);
@@ -102,11 +103,13 @@ function renderArea(area) {
   kakao.maps.event.addListener(polygon, "mouseout", function () {
     // 다각형의 채우기 옵션을 변경합니다
     polygon.setOptions(mouseoutOption);
-  });
+  }); */
 
   // 다각형에 click 이벤트를 등록하고 이벤트가 발생하면 다각형의 이름과 면적을 인포윈도우에 표시합니다
   kakao.maps.event.addListener(polygon, "click", function (mouseEvent) {
     if (!details_window_open) {
+      polygon.setOptions(mouseoverOption);
+      polygons[area.id] = polygon;
       $.ajax({
         url: "scripts/modal.handlebars",
         dataType: "text",
@@ -130,7 +133,14 @@ function renderArea(area) {
 }
 
 window.removeModal = function removeModal(event) {
-  var element = document.getElementById(event.target.dataset["areaId"]);
+  const id = event.target.dataset["areaId"];
+  var element = document.getElementById(id);
   element.parentNode.removeChild(element);
   details_window_open = false;
+  // 다각형에 마우스아웃 이벤트가 발생했을 때 변경할 채우기 옵션입니다
+  var mouseoutOption = {
+    fillColor: "#A2FF99", // 채우기 색깔입니다
+    fillOpacity: 0.7, // 채우기 불투명도 입니다
+  };
+  polygons[id].setOptions(mouseoutOption);
 };
