@@ -12,7 +12,7 @@ app.use(express.static("public"));
 
 // about page
 app.get("/", function (req, res) {
-  res.render("home", {
+  res.render("home.ejs", {
     KAKAO_MAP_JAVASCRIPT_KEY:
       process.env.KAKAO_MAP_JAVASCRIPT_KEY ||
       "64e36d7df07a48189e25336dc4137d96",
