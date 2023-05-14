@@ -9,7 +9,7 @@ const app = express();
 app.set("view engine", "ejs");
 
 // serve static files located in public directory
-app.use(express.static("public"));
+app.use(express.static(path.join(__dirname, "public")));
 
 app.engine("html", require("ejs").renderFile);
 
