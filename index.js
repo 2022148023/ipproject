@@ -5,11 +5,12 @@ require("dotenv").config();
 const app = express();
 
 // set template engine to ejs
-app.set("views", "./views");
 app.set("view engine", "ejs");
 
 // serve static files located in public directory
 app.use(express.static("public"));
+
+app.engine("html", require("ejs").renderFile);
 
 // main page
 app.get("/", function (req, res) {
