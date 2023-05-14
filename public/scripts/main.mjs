@@ -1,4 +1,4 @@
-import autoAnimate from "/scripts/autoAnimate.js";
+import autoAnimate from "/scripts/autoAnimate.mjs";
 
 var container = document.getElementById("map");
 
