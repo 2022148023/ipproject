@@ -6,6 +6,9 @@
   "scripts": {
     "dev": "nodemon index.js"
   },
+  "assets": [
+    "views/**/*"
+  ],
   "author": "",
   "license": "ISC",
   "dependencies": {

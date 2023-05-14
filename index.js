@@ -1,4 +1,5 @@
 const express = require("express");
+const path = require("path");
 require("dotenv").config();
 
 // initialize new express app
@@ -11,6 +12,8 @@ app.set("view engine", "ejs");
 app.use(express.static("public"));
 
 app.engine("html", require("ejs").renderFile);
+
+app.set("views", path.join(__dirname, "views"));
 
 // main page
 app.get("/", function (req, res) {
