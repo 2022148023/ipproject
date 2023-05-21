@@ -6,6 +6,7 @@ const video = document.querySelector("video");
 const canvas = document.querySelector("canvas");
 const screenshotImage = document.querySelector("img");
 const buttons = [...controls.querySelectorAll("button")];
+
 let streamStarted = false;
 
 const [play, pause, screenshot] = buttons;
@@ -29,10 +30,14 @@ const constraints = {
 const getCameraSelection = async () => {
   const devices = await navigator.mediaDevices.enumerateDevices();
   const videoDevices = devices.filter((device) => device.kind === "videoinput");
-  const options = videoDevices.map((videoDevice) => {
-    return `<option value="${videoDevice.deviceId}">${videoDevice.label}</option>`;
-  });
-  cameraOptions.innerHTML = options.join("");
+  console.log(videoDevices);
+  const updatedConstraints = {
+    ...constraints,
+    deviceId: {
+      exact: videoDevices[0].deviceId,
+    },
+  };
+  startStream(updatedConstraints);
 };
 
 play.onclick = () => {
@@ -66,18 +71,6 @@ const handleStream = (stream) => {
   streamStarted = true;
 };
 
-getCameraSelection();
-
-cameraOptions.onchange = () => {
-  const updatedConstraints = {
-    ...constraints,
-    deviceId: {
-      exact: cameraOptions.value,
-    },
-  };
-  startStream(updatedConstraints);
-};
-
 const pauseStream = () => {
   video.pause();
   play.classList.remove("d-none");
@@ -94,3 +87,7 @@ const doScreenshot = () => {
 
 pause.onclick = pauseStream;
 screenshot.onclick = doScreenshot;
+
+document.addEventListener("DOMContentLoaded", async () => {
+  await getCameraSelection();
+});
