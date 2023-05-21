@@ -1,54 +1,49 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
-    <title>Camera Screenshot</title>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
+    />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+    />
+    <link rel="stylesheet" href="styles/camera.css" />
+    <title>쓰레기 공작소</title>
   </head>
   <body>
-    <video id="video" width="100%" height="auto"></video>
-    <button id="captureButton">Capture Screenshot</button>
-    <canvas id="canvas" style="display: none"></canvas>
+    <div class="display-cover">
+      <video autoplay></video>
+      <canvas class="d-none"></canvas>
 
-    <script>
-      // Get access to the camera and start streaming video
-      navigator.mediaDevices
-        .getUserMedia({ video: true })
-        .then(function (stream) {
-          var videoElement = document.getElementById("video");
-          videoElement.srcObject = stream;
-          videoElement.play();
-        })
-        .catch(function (error) {
-          alert("Error accessing the camera.", error);
-        });
+      <div class="video-options">
+        <select name="" id="" class="custom-select">
+          <option value="">Select camera</option>
+        </select>
+      </div>
 
-      // Capture screenshot when the button is clicked
-      var captureButton = document.getElementById("captureButton");
-      captureButton.addEventListener("click", function () {
-        var videoElement = document.getElementById("video");
-        var canvasElement = document.getElementById("canvas");
-        var context = canvasElement.getContext("2d");
+      <img class="screenshot-image d-none" alt="" />
 
-        // Set canvas dimensions to match the video stream
-        canvasElement.width = videoElement.videoWidth;
-        canvasElement.height = videoElement.videoHeight;
+      <div class="controls">
+        <button class="btn btn-danger play" title="Play">
+          <i data-feather="play-circle"></i>
+        </button>
+        <button class="btn btn-info pause d-none" title="Pause">
+          <i data-feather="pause"></i>
+        </button>
+        <button
+          class="btn btn-outline-success screenshot d-none"
+          title="ScreenShot"
+        >
+          <i data-feather="image"></i>
+        </button>
+      </div>
+    </div>
 
-        // Draw the current frame of the video onto the canvas
-        context.drawImage(
-          videoElement,
-          0,
-          0,
-          canvasElement.width,
-          canvasElement.height
-        );
-
-        // Get the screenshot data as a base64-encoded string
-        var screenshotData = canvasElement.toDataURL("image/png");
-
-        // Open the screenshot in a new window/tab (optional)
-        window.open(screenshotData);
-
-        // You can also send the screenshot data to a server or perform other operations with it
-      });
-    </script>
+    <script src="https://unpkg.com/feather-icons"></script>
+    <script type="module" src="scripts/camera.mjs"></script>
   </body>
 </html>

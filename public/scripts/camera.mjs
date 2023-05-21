@@ -1,3 +1,5 @@
+feather.replace();
+
 const controls = document.querySelector(".controls");
 const cameraOptions = document.querySelector(".video-options>select");
 const video = document.querySelector("video");
@@ -20,6 +22,7 @@ const constraints = {
       ideal: 1080,
       max: 1440,
     },
+    facingMode: "environment",
   },
 };
 
@@ -63,9 +66,7 @@ const handleStream = (stream) => {
   streamStarted = true;
 };
 
-document.addEventListener("DOMContentLoaded", async () => {
-  await getCameraSelection();
-});
+getCameraSelection();
 
 cameraOptions.onchange = () => {
   const updatedConstraints = {
