@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Camera Screenshot</title>
+  </head>
+  <body>
+    <video id="video" width="100%" height="auto"></video>
+    <button id="captureButton">Capture Screenshot</button>
+    <canvas id="canvas" style="display: none"></canvas>
+
+    <script>
+      // Get access to the camera and start streaming video
+      navigator.mediaDevices
+        .getUserMedia({ video: true })
+        .then(function (stream) {
+          var videoElement = document.getElementById("video");
+          videoElement.srcObject = stream;
+          videoElement.play();
+        })
+        .catch(function (error) {
+          alert("Error accessing the camera.", error);
+        });
+
+      // Capture screenshot when the button is clicked
+      var captureButton = document.getElementById("captureButton");
+      captureButton.addEventListener("click", function () {
+        var videoElement = document.getElementById("video");
+        var canvasElement = document.getElementById("canvas");
+        var context = canvasElement.getContext("2d");
+
+        // Set canvas dimensions to match the video stream
+        canvasElement.width = videoElement.videoWidth;
+        canvasElement.height = videoElement.videoHeight;
+
+        // Draw the current frame of the video onto the canvas
+        context.drawImage(
+          videoElement,
+          0,
+          0,
+          canvasElement.width,
+          canvasElement.height
+        );
+
+        // Get the screenshot data as a base64-encoded string
+        var screenshotData = canvasElement.toDataURL("image/png");
+
+        // Open the screenshot in a new window/tab (optional)
+        window.open(screenshotData);
+
+        // You can also send the screenshot data to a server or perform other operations with it
+      });
+    </script>
+  </body>
+</html>

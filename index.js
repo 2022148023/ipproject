@@ -24,6 +24,10 @@ app.get("/", function (req, res) {
   });
 });
 
+app.get("/camera", (req, res) => {
+  res.render("camera");
+});
+
 const port = process.env.PORT || 3000;
 
 app.listen(port, () => {
